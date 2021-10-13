@@ -9,10 +9,10 @@ firebase.initializeApp({
     measurementId: "G-0LWKL3T0RQ"
 });
 
-const firestore = firebase.firestore();
+const _firestore = firebase.firestore();
 
 const setUserOnlineStatus = (id, isUserOnline = false) => {
-  firestore()
+  _firestore()
     .collection('users')
     .doc(id.toString())
     .set({
@@ -25,10 +25,10 @@ const setUserOnlineStatus = (id, isUserOnline = false) => {
 };
 
 const getUserOnlineStatus = (id) =>
-  firestore().collection('users').doc(id.toString()).get();
+  _firestore().collection('users').doc(id.toString()).get();
 
 const callListener = (id) =>
-  firestore()
+  _firestore()
     .collection('signaling')
     .doc(id.toString())
     .onSnapshot(({_data}) => {
@@ -44,7 +44,7 @@ const callListener = (id) =>
     });
 
 const signalUser = (callObj) => {
-  firestore()
+  _firestore()
     .collection('signaling')
     .doc(callObj.target_user_id.toString())
     .set({
@@ -64,7 +64,7 @@ const addCallStatus = (
   isCallAccepted = false,
   isCallRejected = false,
 ) => {
-  firestore()
+  _firestore()
     .collection('calls')
     .doc(
       +callerId > +receiverId
@@ -83,7 +83,7 @@ const addCallStatus = (
 };
 
 const listenCallStatus = (callerId, receiverId, cb) => {
-  firestore()
+  _firestore()
     .collection('calls')
     .doc(
       +callerId > +receiverId

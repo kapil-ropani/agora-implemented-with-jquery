@@ -140,18 +140,47 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('/js/firebase.js') }}"></script>
-
+    {{-- It's a library that helps me to create sigleton pattern in browser apps --}}
+    <script src="{{ asset('/js/light-event-bus.min.js') }}"></script>
+    <script src="{{ asset('/js/AgoraRTC_N-4.7.1.js') }}"></script>
     <script>
         $(document).ready(() => {
-            firestore.collection("users").get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log(doc.data());
-                });
-            });
+            var resolutions = [
+                {
+                    name: "default",
+                    value: "default",
+                },
+                {
+                    name: "480p",
+                    value: "480p",
+                },
+                {
+                    name: "720p",
+                    value: "720p",
+                },
+                {
+                    name: "1080p",
+                    value: "1080p"
+                }
+            ];
+
+            var rtc = {
+                client: null,
+                joined: false,
+                published: false,
+                localStream: null,
+                remoteStreams: [],
+                params: {}
+            };
+            // console.log("agora sdk version: " + AgoraRTC.VERSION + " compatible: " + AgoraRTC.checkSystemRequirements());
+            // _firestore.collection("users").get().then((querySnapshot) => {
+            //     querySnapshot.forEach((doc) => {
+            //         console.log(doc.data());
+            //     });
+            // });
 
             $("button.call-type").click(function(e) {
                 const callType = $(this).data('call-type');
-                alert(callType)
                 if (parseInt(callType)) {
                     // initiate audio call
                 } else {
