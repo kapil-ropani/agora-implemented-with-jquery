@@ -155,7 +155,7 @@
             var option = {
                 mode: "rtc",
                 codec: "vp8",
-                channel_name: `channel_${targetUserId}`,
+                channel_name: `channel_${1}`,
                 appID: "{{ env('AGORA_APP_ID') }}",
                 uid: "{{ Auth::user()->id }}",
                 role: "host",
@@ -333,13 +333,11 @@
                      *      All users in the same channel should have the same type (number or string) of uid.
                      *      If you use a number as the user ID, it should be a 32-bit unsigned integer with a value ranging from 0 to (232-1).
                      **/
-                    rtc.client.join(option.token ? option.token : null, option.channel_name, option.uid ? +
-                        option
-                        .uid : null,
+                    console.log("Just before sending call request: ", option.token ? option.token : null, option.channel_name, option.uid ? + option.uid : null)
+                    rtc.client.join(option.token ? option.token : null, option.channel_name, option.uid ? + option.uid : null,
                         function(uid) {
                             // Toast.notice("join channel: " + option.channel_name + " success, uid: " + uid)
-                            console.log("join channel: " + option.channel_name + " success, uid: " +
-                                uid)
+                            console.log("join channel: " + option.channel_name + " success, uid: " + uid)
                             rtc.joined = true
 
                             rtc.params.uid = uid
@@ -352,7 +350,7 @@
                                 screen: false,
                                 microphoneId: option.microphoneId,
                                 cameraId: option.cameraId
-                            })
+                            });
 
                             // initialize local stream. Callback function executed after intitialization is done
                             rtc.localStream.init(function() {
@@ -369,6 +367,7 @@
                                 console.error("init local stream failed ", err)
                             })
                         },
+
                         function(err) {
                             // Toast.error("client join failed, please open console see more detail")
                             console.error("client join failed", err)
@@ -478,7 +477,6 @@
                         console.log("join video call")
                         // e.preventDefault();
                         // var params = serializeformData(); // Data is feteched and serilized from the form element.
-
                         // if (validator(params, fields)) {
                             // let response = await fetch(
                             //     'https://retrocubedev.com/dev/american_matrimony/public/api/agora/token', {
@@ -491,12 +489,10 @@
                             //         },
                             //         body: JSON.stringify(option)
                             //     });
-
                             // let tokenResponse = await response.json();
-
                             // console.log("token", tokenResponse)
                             // console.log(rtc.client)
-                            join(rtc, option)
+                            join(rtc, option);
                         // }
                     // })
                 }
